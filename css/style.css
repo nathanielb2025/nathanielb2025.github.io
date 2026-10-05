@@ -1,0 +1,232 @@
+/* ---------- Tokens ---------- */
+:root {
+  --bg: #faf8f4;
+  --text: #1d1d1b;
+  --muted: #5f5d57;
+  --rule: #dcd8cf;
+  --accent: #1f4e5f;
+  --serif: "Newsreader", Georgia, "Times New Roman", serif;
+  --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #16171a;
+    --text: #e9e6df;
+    --muted: #a09d94;
+    --rule: #2e3035;
+    --accent: #7fb7c9;
+  }
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.page {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 4.5rem 1.25rem 3rem;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+a:hover { text-decoration-thickness: 2px; }
+
+/* ---------- Intro ---------- */
+.masthead {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 1.5rem;
+}
+
+.portrait {
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--rule);
+  flex: none;
+}
+
+.name {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  color: var(--text);
+  margin: 0;
+}
+.name span {
+  display: block;
+  color: var(--muted);
+  margin-top: 0.15rem;
+}
+
+h1 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(1.9rem, 5.2vw, 2.7rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin: 0 0 1.5rem;
+}
+
+.lede {
+  font-size: 1.05rem;
+  margin: 0 0 1.5rem;
+  max-width: 38rem;
+}
+
+.seeking {
+  font-size: 0.95rem;
+  color: var(--muted);
+  max-width: 38rem;
+  margin: 0 0 1.5rem;
+}
+.seeking strong { color: var(--text); font-weight: 600; }
+
+.plain-summary {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  margin: 0 0 1.25rem;
+  max-width: 36rem;
+}
+
+code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.5rem;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* ---------- Blocks ---------- */
+.block {
+  margin-top: 3.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule);
+}
+
+h2 {
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 1.75rem;
+}
+
+/* ---------- Projects ---------- */
+.project + .project { margin-top: 3rem; }
+
+h3 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  margin: 0 0 0.25rem;
+}
+
+.meta {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin: 0 0 1.1rem;
+}
+
+dl {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr;
+  gap: 0.7rem 1rem;
+  margin: 0 0 1.5rem;
+}
+dt {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+  padding-top: 0.2rem;
+}
+dd { margin: 0; }
+
+figure { margin: 0; }
+figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--rule);
+  background: #fff;
+}
+figcaption {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-top: 0.5rem;
+}
+
+/* ---------- Lists ---------- */
+.plain {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.plain li + li { margin-top: 0.9rem; }
+
+.timeline {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.timeline li {
+  display: grid;
+  grid-template-columns: 8.5rem 1fr;
+  gap: 1rem;
+}
+.timeline li + li { margin-top: 0.9rem; }
+.when {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--muted);
+  padding-top: 0.2rem;
+}
+
+/* ---------- Footer ---------- */
+.foot {
+  margin-top: 4rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.foot p { margin: 0; }
+
+/* ---------- Small screens ---------- */
+@media (max-width: 600px) {
+  .page { padding-top: 3rem; }
+  dl { grid-template-columns: 1fr; gap: 0.15rem; }
+  dd { margin-bottom: 0.7rem; }
+  .timeline li { grid-template-columns: 1fr; gap: 0.1rem; }
+}

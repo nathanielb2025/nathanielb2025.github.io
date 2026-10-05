@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nathaniel Brazen</title>
+<meta name="description" content="Nathaniel Brazen — software engineer working across computer vision, ML, and systems, with an MS in Quantum Engineering (software focus) from Colorado School of Mines.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+
+<main class="page">
+
+  <header class="intro">
+    <div class="masthead">
+      <img class="portrait" src="assets/img/portrait.jpg" alt="Portrait of Nathaniel Brazen" width="96" height="96">
+      <p class="name">Nathaniel Brazen<span>Golden, Colorado</span></p>
+    </div>
+    <h1>I build software across layers: from computer vision to qubit routing.</h1>
+    <p class="lede">
+      Quantum software draws on linear algebra, compilers, systems, and ML tooling at once.
+      I'm training across all of them: a BS in Computer Science, an MS in Quantum Engineering
+      (software focus, May&nbsp;2027) at Colorado School of Mines, and hands-on work in computer vision and
+      machine learning. I check my understanding by building things end to end. Below, I wrote a quantum
+      simulator and a hardware-aware qubit router from scratch instead of calling a library.
+    </p>
+    <p class="seeking">
+      <strong>Looking for:</strong> new-grad software roles starting after my May&nbsp;2027 graduation,
+      plus co-ops and internships before then. Quantum software is the long-term goal; ML, computer vision,
+      and general software engineering roles are equally welcome.
+    </p>
+    <p class="links">
+      <a href="assets/resume.pdf" target="_blank" rel="noopener">Resume (PDF)</a>
+      <a href="https://github.com/nathanielb2025" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/nathaniel-brazen/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:nathaniel_brazen@mines.edu">nathaniel_brazen@mines.edu</a>
+    </p>
+  </header>
+
+  <section class="block" aria-labelledby="quantum-h">
+    <h2 id="quantum-h">Quantum, built from first principles</h2>
+
+    <article class="project">
+      <h3>Shor's algorithm simulator</h3>
+      <p class="meta">Python · NumPy · pytest · <a href="https://github.com/nathanielb2025/shors-algorithm-simulator" target="_blank" rel="noopener">source</a></p>
+      <p class="plain-summary">In plain terms: I built a quantum computer simulator from scratch and used it to factor 15, the same algorithm that threatens today's encryption at scale.</p>
+      <dl>
+        <dt>Problem</dt>
+        <dd>Understand why Shor's algorithm works, not just that it does, by implementing the whole pipeline with no quantum library.</dd>
+        <dt>Approach</dt>
+        <dd>A state-vector simulator where every gate is an explicit matrix or tensor operation, plus the QFT, phase estimation, and a modular-exponentiation oracle. The oracle is an index permutation, not a gate-level arithmetic circuit. At 12 qubits, gates switch to tensor-reshape application so no 4096×4096 matrices are built.</dd>
+        <dt>Result</dt>
+        <dd>Factors N=15 end to end and recovers the period from the measured peaks. 217 passing tests. The figure below shows the key insight: the period is invisible in the probabilities after modular exponentiation (it lives in the phases) until the inverse QFT turns it into peak spacing.</dd>
+      </dl>
+      <figure>
+        <img src="assets/img/shors-circuit-stages.png" alt="Four bar charts of the counting register's probability distribution through Shor's algorithm for N=15, a=7: a single spike at zero, uniform after Hadamards, still uniform after modular exponentiation, and four evenly spaced peaks after the inverse QFT." loading="lazy">
+        <figcaption>Counting-register distribution at each stage, N=15, a=7. Four peaks at spacing 256/4 reveal the period r=4.</figcaption>
+      </figure>
+    </article>
+
+    <article class="project">
+      <h3>Hardware-aware circuit transpiler</h3>
+      <p class="meta">Python · Qiskit · NetworkX · <a href="https://github.com/nathanielb2025/quantum-transpiler" target="_blank" rel="noopener">source</a></p>
+      <p class="plain-summary">In plain terms: quantum chips can only connect neighboring qubits, so I wrote the routing step that rearranges a program to fit the chip's wiring.</p>
+      <dl>
+        <dt>Problem</dt>
+        <dd>Algorithms assume any qubit can interact with any other. Real chips only allow two-qubit gates between physically adjacent qubits.</dd>
+        <dt>Approach</dt>
+        <dd>A routing pass that tracks the logical-to-physical qubit mapping and inserts SWAPs along the BFS shortest path whenever a gate isn't adjacent. It targets grid, ring, and heavy-hex topologies, with built-in tracing so every SWAP can be inspected.</dd>
+        <dt>Result</dt>
+        <dd>On a 5-qubit QFT over a heavy-hex lattice it uses 20 SWAPs against 23 for a naive spanning-tree baseline. It is a greedy heuristic: no lookahead, no noise-awareness. Those are the gaps SABRE-style routers close.</dd>
+      </dl>
+      <figure>
+        <img src="assets/img/routing-before-after.png" alt="Two 2x2 qubit grids. Left: a CNOT between diagonal qubits 0 and 3 drawn as an illegal dashed line. Right: after routing, one SWAP between qubits 0 and 1 makes the gate legal." loading="lazy">
+        <figcaption>A CNOT between non-adjacent qubits, made legal by one inserted SWAP.</figcaption>
+      </figure>
+    </article>
+  </section>
+
+  <section class="block" aria-labelledby="systems-h">
+    <h2 id="systems-h">A system that runs for real users</h2>
+
+    <article class="project">
+      <h3>Live-streaming platform for rugby matches</h3>
+      <p class="meta">WebRTC · SRS · Node/Express · Docker · Caddy · Terraform · GCP</p>
+      <p class="plain-summary">In plain terms: a phone on the sideline streams a match live to any browser, with delay under a second, from a free-tier cloud server.</p>
+      <dl>
+        <dt>Problem</dt>
+        <dd>Streaming a live match normally adds seconds of delay and costs money. I wanted near-real-time video, publishable from a phone on cellular data, that only I can start but anyone can watch.</dd>
+        <dt>Approach</dt>
+        <dd>The phone publishes over WebRTC (WHIP) to an SRS media server, and viewers play it back in the browser (WHEP). SRS's publish endpoint is never exposed to the internet. It is reachable only through my Node server, which checks a signed, HTTP-only session cookie and rate-limits logins, so the auth check, not a hidden button, protects the stream. Caddy provides HTTPS, Docker Compose runs the three services, and Terraform provisions the GCP VM, firewall rules, and static IP. The static IP is advertised as the WebRTC candidate, so phones behind carrier NAT connect without a TURN relay.</dd>
+        <dt>Result</dt>
+        <dd>Sub-second latency, reproducible deploys from one <code>terraform apply</code>, and a cost that stays inside the GCP free tier.</dd>
+      </dl>
+    </article>
+  </section>
+
+  <section class="block" aria-labelledby="range-h">
+    <h2 id="range-h">Beyond quantum</h2>
+    <ul class="plain">
+      <li><strong>Computer vision.</strong> Graduate Assistant for CSCI 437/507. I designed a CNN training assignment (ConvNetJS on CIFAR-10) and review students' image-processing code. As a summer instructor I built an autonomous soccer framework for VEX AIM robots using computer vision.</li>
+      <li><strong>Machine learning.</strong> A disaster-tweet classifier on 10,000+ posts (TensorFlow/Keras, 0.79 F1), benchmarked against Naive Bayes, SVMs, and other model families.</li>
+      <li><strong>Coursework.</strong> The MS program covers quantum algorithms and complexity theory, AI/ML, and computer architecture and HPC. My BS work included operating systems in C/C++ (processes, pipes, POSIX threads, scheduling, virtual memory).</li>
+    </ul>
+  </section>
+
+  <section class="block" aria-labelledby="exp-h">
+    <h2 id="exp-h">Experience</h2>
+    <ul class="timeline">
+      <li><span class="when">Jun 2026 – now</span><span><strong>Graduate Assistant, Computer Vision (CSCI 437/507)</strong>, Colorado School of Mines</span></li>
+      <li><span class="when">May – Jul 2026</span><span><strong>Lead Instructor, DECTech Summer Program</strong>, Colorado School of Mines. Led an intern team building AI, robotics, and software curriculum.</span></li>
+      <li><span class="when">Jun – Jul 2026</span><span><strong>Project Advisor, Computing For Good</strong>, Colorado School of Mines. Advised a student team through Agile sprints on a tree-carbon estimator.</span></li>
+    </ul>
+  </section>
+
+  <section class="block" aria-labelledby="outside-h">
+    <h2 id="outside-h">Outside the code</h2>
+    <figure>
+      <img src="assets/img/rugby.jpg" alt="Nathaniel carrying the ball in a rugby match while a defender reaches for him." width="1400" height="932" loading="lazy">
+      <figcaption>Mines men's rugby: 20+ hours a week of training and national-level competition alongside a dual-degree course load. It taught me to decide quickly under pressure and to keep a demanding schedule.</figcaption>
+    </figure>
+  </section>
+
+  <footer class="foot">
+    <p>Golden, Colorado · <a href="assets/resume.pdf" target="_blank" rel="noopener">Resume</a> · <a href="mailto:nathaniel_brazen@mines.edu">Email</a> · &copy; <span id="year"></span></p>
+  </footer>
+
+</main>
+
+<script src="js/main.js"></script>
+</body>
+</html>
