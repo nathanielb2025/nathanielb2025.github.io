@@ -4,7 +4,7 @@
 
 This is my personal website. It's plain static HTML, CSS, and a tiny bit of JavaScript. It's hosted on GitHub Pages.
 
-## Reo Layout
+## Repo Layout
 
 - `index.html` is the whole site: intro, projects, other work, experience, and contact.
 - `css/style.css` holds all the styling. It's responsive and follows the viewer's light or dark preference.
